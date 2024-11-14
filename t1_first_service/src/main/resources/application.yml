@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: t1_first_service
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/t1_demo"
+    username: "postgres"
+    password: "0000"
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.xml
+
+logging:
+  level:
+    ROOT: DEBUG
+    org.t1.demo.controller.ClientController: DEBUG
+    org.t1.demo.controller.AccountController: DEBUG
+    org.t1.demo.controller.TransactionController: DEBUG
+    org.apache.kafka: INFO
+    org.hibernate.SQL: INFO
+
+t1:
+  scan-path: org.t1.demo
+  kafka:
+    bootstrap:
+      server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      groupDemo:
+        group-id: t1-demo
+      groupAccount:
+        group-id: t1-demo-account
+      groupTransaction:
+        group-id: t1-demo-transaction
+      max.poll.records: 10
+      session-timeout: 10000
+      heartbeat.interval: 3000
+    producer:
+      enable: true
+    topic:
+      client_registration: t1_demo_client_registration
+      client_id_registered: t1_demo_client_registered
+      client_transactions: t1_demo_client_transactions
+      demo_metrics: t1_demo_metrics
+      demo_accounts: t1_demo_accounts
+      demo_transactions: t1_demo_transactions
+      transaction_accepted: t1_demo_transaction_accept
+    listener:
+      poll-timeout: 1000

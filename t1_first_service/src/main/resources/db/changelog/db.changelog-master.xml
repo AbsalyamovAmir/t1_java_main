@@ -1,0 +1,47 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="init" author="ECHasov">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="update-client" author="ECHasov">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="create-transaction-and-account" author="absa">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/04-11-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="add-transaction-and-account_seq" author="absa">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/04-11-changelog-02.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="add-add_data_source_error_log_sequence" author="absa">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/05-11-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="update-account-table" author="absa">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/10-11-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="update-transaction-table" author="absa">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/10-11-changelog-02.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="add-columns-in-transaction-and-account-and-client-tables" author="absa">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/14-11-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+</databaseChangeLog>
