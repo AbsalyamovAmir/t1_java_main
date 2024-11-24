@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.t1.demo.model.enums.ClientStatus;
 
 @Getter
 @Setter
@@ -27,4 +28,6 @@ public class Client extends AbstractPersistable<Long> {
     @Column(name = "client_id")
     private long clientId;
 
+    @Column(name = "client_status")
+    private ClientStatus clientStatus;
 }

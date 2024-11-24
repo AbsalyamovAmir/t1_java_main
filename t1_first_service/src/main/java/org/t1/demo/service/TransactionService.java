@@ -10,7 +10,7 @@ public interface TransactionService {
 
     TransactionDto getTransactionById(Long id);
 
-    Transaction saveTransaction(TransactionDto transactionDto);
+    TransactionDto saveTransaction(TransactionDto transactionDto);
 
     void generateTransactions(int count);
 

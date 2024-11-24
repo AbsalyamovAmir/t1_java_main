@@ -9,8 +9,6 @@ import org.t1.demo.repository.AccountRepository;
 import org.t1.demo.service.AccountService;
 import org.t1.demo.util.AccountMapper;
 
-import java.util.Optional;
-
 /**
  * Сервис для работы с сущностью Account
  */

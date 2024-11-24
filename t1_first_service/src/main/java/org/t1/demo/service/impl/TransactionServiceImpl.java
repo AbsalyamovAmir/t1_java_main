@@ -3,6 +3,7 @@ package org.t1.demo.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.t1.demo.exception.AccountException;
 import org.t1.demo.exception.TransactionException;
 import org.t1.demo.generator.DataGenerator;
@@ -46,8 +47,9 @@ public class TransactionServiceImpl implements TransactionService {
      * @param transactionDto полученная Dto для Transaction
      */
     @Override
-    public Transaction saveTransaction(TransactionDto transactionDto) {
-        return transactionRepository.save(transactionMapper.toEntity(transactionDto));
+    @Transactional
+    public TransactionDto saveTransaction(TransactionDto transactionDto) {
+        return transactionMapper.toDto(transactionRepository.save(transactionMapper.toEntity(transactionDto)));
     }
 
     /**

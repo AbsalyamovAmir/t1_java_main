@@ -1,10 +1,14 @@
 package org.t1.demo.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.t1.demo.aop.DataSourceErrorLogTrack;
 import org.t1.demo.aop.Metric;
 import org.t1.demo.model.dto.TransactionDto;
+import org.t1.demo.model.enums.ClientStatus;
+import org.t1.demo.service.RequestProcessingService;
 import org.t1.demo.service.TransactionService;
 
 @RestController
@@ -12,7 +16,9 @@ import org.t1.demo.service.TransactionService;
 @RequiredArgsConstructor
 public class TransactionController {
 
+    private final RestTemplate restTemplate;
     private final TransactionService transactionService;
+    private final RequestProcessingService requestProcessingService;
 
     /**
      * Создание Transaction
@@ -20,9 +26,15 @@ public class TransactionController {
      */
     @DataSourceErrorLogTrack
     @Metric(value = 1000)
-    @PostMapping
-    public void createTransaction(@RequestBody TransactionDto transactionDto) {
-        transactionService.saveTransaction(transactionDto);
+    @PostMapping("/create")
+    public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto transactionDto) {
+        if (transactionDto.getAccount().getClient().getClientStatus() == null) {
+            ResponseEntity<String> response = restTemplate.getForEntity(String.format("http://localhost:8081/client/check-status?clientId=%1$s&accountId=%2$s",
+                    transactionDto.getAccount().getClient().getId(), transactionDto.getAccount().getId()), String.class);
+            return ResponseEntity.ok(requestProcessingService.processRequest(transactionDto, ClientStatus.valueOf(response.getBody())));
+        } else {
+            return ResponseEntity.ok(transactionService.saveTransaction(transactionDto));
+        }
     }
 
     /**
