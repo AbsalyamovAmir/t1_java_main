@@ -7,8 +7,10 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.t1.demo.model.Account;
 import org.t1.demo.model.dto.TransactionDto;
+import org.t1.demo.model.enums.AccountStatus;
 import org.t1.demo.model.enums.TransactionStatus;
 import org.t1.demo.service.AccountService;
+import org.t1.demo.service.TransactionService;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -24,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class KafkaTransactionConsumer {
 
     private final KafkaTransactionProducer transactionResultProducer;
+    private final TransactionService transactionService;
     private final AccountService accountService;
     @Value("${t1.kafka.transaction.max-period}")
     private long maxPeriod;
@@ -41,6 +44,13 @@ public class KafkaTransactionConsumer {
 
         TransactionDto transactionDto = new TransactionDto();
         Account account = accountService.findByAccountId((Account) confirmationData.get("account"));
+
+        if (account != null
+                && account.getClient().getClientStatus() != null
+                && transactionService.getTransactionsByAccount(account).stream().filter(x -> x.getTransactionStatus().equals(TransactionStatus.REJECTED)).count() > maxCount) {
+            account.setAccountStatus(AccountStatus.ARRESTED);
+        }
+
         transactionDto.setAccount(account);
         transactionDto.setTransactionId((Long) confirmationData.get("transactionId"));
         transactionDto.setTimestamp(Date.valueOf(String.valueOf(LocalDateTime.parse(confirmationData.get("timestamp").toString()))));

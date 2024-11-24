@@ -37,7 +37,7 @@ public class KafkaTransactionConsumer {
             Account account = transactionDto.getAccount();
             if (account.getAccountStatus() == AccountStatus.OPEN) {
                 transactionDto.setTransactionStatus(TransactionStatus.REQUESTED);
-                Transaction savedTransaction = transactionService.saveTransaction(transactionDto);
+                TransactionDto savedTransaction = transactionService.saveTransaction(transactionDto);
                 Account updatedAccount = accountService.updateAccountSum(account, transactionDto.getSumTransaction());
                 kafkaTransactionProducer.sendAccepted(
                         account.getClient().getId(),

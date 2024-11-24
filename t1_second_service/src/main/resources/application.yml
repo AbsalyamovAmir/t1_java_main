@@ -35,4 +35,3 @@ t1:
     transaction:
       max-period: 60
       max-count: 5
-

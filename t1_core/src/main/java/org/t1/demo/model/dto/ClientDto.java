@@ -6,11 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.t1.demo.model.enums.ClientStatus;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link ru.t1.java.demo.model.Client}
+ * DTO for {@link org.t1.demo.model}
  */
 @Data
 @AllArgsConstructor
@@ -27,4 +28,6 @@ public class ClientDto implements Serializable {
     private String middleName;
     @JsonProperty("client_id")
     private long clientId;
+    @JsonProperty("client_status")
+    private ClientStatus clientStatus;
 }
